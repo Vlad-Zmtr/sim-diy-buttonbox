@@ -1,0 +1,88 @@
+#include <FastLED.h>
+#include <Joystick.h>
+
+// How many leds in your strip?
+#define NUM_LEDS 60
+#define DATA_PIN 8
+
+// Define the array of leds
+CRGB leds[NUM_LEDS];
+
+// Create the Joystick
+Joystick_ Joystick;
+
+// Last state of the button
+int lastButtonState[6] = {0,0,0,0,0,0};
+bool ledStatus = FALSE;
+// Constant that maps the phyical pin to the joystick button.
+const int pinToButtonMap = 2;
+
+void setup() { 
+    // Initialize LED
+    FastLED.addLeds<WS2812, DATA_PIN, GRB>(leds, NUM_LEDS);  // GRB ordering is assumed
+
+    // Initialize Button Pins
+    pinMode(2 INPUT_PULLUP);
+    pinMode(3, INPUT_PULLUP);
+    pinMode(4, INPUT_PULLUP);
+    pinMode(5, INPUT_PULLUP);
+    pinMode(6, INPUT_PULLUP);
+    pinMode(7, INPUT_PULLUP);
+
+    // Initialize Joystick Library
+    Joystick.begin();
+}
+
+void fill(CRGB color)
+{
+    for(int i = 0; i < NUM_LEDS; i++) {
+        leds[i] = color;
+    }
+}
+
+/// blink red and then off every half second.
+void loop() {
+    CheckAllButtons();
+    if (!ledStatus)
+    {
+        EnableLED();
+    }
+}
+
+  // LED
+  // Turn the LED on, then pause
+void EnableLED(void)
+{
+  fill(CRGB::Red);
+  FastLED.show();
+  ledStatus = TRUE;
+}
+
+viod CheckAllButtons(viod)
+{
+  // BUTTONS
+  // Read pin values
+  for (int index = 0; index < 6; index++)
+  {
+    int currentButtonState = !digitalRead(index + pinToButtonMap);
+    if (currentButtonState != lastButtonState[index])
+    {
+        if (index != 1)
+        {
+            Joystick.setButton(index, currentButtonState);
+            lastButtonState[index] = currentButtonState;
+            delay(50)
+            Joystick.setButton(index,0)
+        }
+        else
+        {
+            Joystick.setButton(index, currentButtonState);
+            lastButtonState[index] = currentButtonState;
+        }
+    }    
+  }
+}
+
+
+
+
