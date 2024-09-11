@@ -2,7 +2,7 @@
 #include <Joystick.h>
 
 // How many leds in your strip?
-#define NUM_LEDS 60
+#define NUM_LEDS 32
 #define DATA_PIN 8
 
 // Define the array of leds
@@ -13,6 +13,7 @@ Joystick_ Joystick;
 
 // Last state of the button
 int lastButtonState[6] = {0,0,0,0,0,0};
+int buttonDelay = 50;
 bool ledStatus = FALSE;
 // Constant that maps the phyical pin to the joystick button.
 const int pinToButtonMap = 2;
@@ -58,21 +59,21 @@ void EnableLED(void)
   ledStatus = TRUE;
 }
 
+// BUTTONS
 viod CheckAllButtons(viod)
 {
-  // BUTTONS
   // Read pin values
   for (int index = 0; index < 6; index++)
   {
     int currentButtonState = !digitalRead(index + pinToButtonMap);
     if (currentButtonState != lastButtonState[index])
     {
-        if (index != 1)
+        if (index != 1)  // 1 is normal button
         {
-            Joystick.setButton(index, currentButtonState);
+            Joystick.setButton(index, 1);
             lastButtonState[index] = currentButtonState;
-            delay(50)
-            Joystick.setButton(index,0)
+            delay(buttonDelay);
+            Joystick.setButton(index,0);
         }
         else
         {
@@ -81,6 +82,7 @@ viod CheckAllButtons(viod)
         }
     }    
   }
+    delay(50);
 }
 
 
