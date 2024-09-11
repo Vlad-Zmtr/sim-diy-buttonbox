@@ -9,12 +9,27 @@
 CRGB leds[NUM_LEDS];
 
 // Create the Joystick
-Joystick_ Joystick;
+Joystick_ Joystick(JOYSTICK_DEFAULT_REPORT_ID,
+  JOYSTICK_TYPE_JOYSTICK,
+  20, //number of buttons
+  0, //number of hat switches
+  //Set as many axis to "true" as you have potentiometers for
+  false, // y axis
+  false, // x axis
+  false, // z axis
+  false, // rx axis
+  false, // ry axis
+  false, // rz axis
+  false, // rudder
+  false, // throttle
+  false, // accelerator
+  false, // brake
+  false); // steering wheel
 
 // Last state of the button
 int lastButtonState[6] = {0,0,0,0,0,0};
 int buttonDelay = 50;
-bool ledStatus = FALSE;
+bool ledStatus = false;
 // Constant that maps the phyical pin to the joystick button.
 const int pinToButtonMap = 2;
 
@@ -23,7 +38,7 @@ void setup() {
     FastLED.addLeds<WS2812, DATA_PIN, GRB>(leds, NUM_LEDS);  // GRB ordering is assumed
 
     // Initialize Button Pins
-    pinMode(2 INPUT_PULLUP);
+    pinMode(2, INPUT_PULLUP);
     pinMode(3, INPUT_PULLUP);
     pinMode(4, INPUT_PULLUP);
     pinMode(5, INPUT_PULLUP);
@@ -56,11 +71,11 @@ void EnableLED(void)
 {
   fill(CRGB::Red);
   FastLED.show();
-  ledStatus = TRUE;
+  ledStatus = true;
 }
 
 // BUTTONS
-viod CheckAllButtons(viod)
+void CheckAllButtons(void)
 {
   // Read pin values
   for (int index = 0; index < 6; index++)
@@ -84,7 +99,3 @@ viod CheckAllButtons(viod)
   }
     delay(50);
 }
-
-
-
-
