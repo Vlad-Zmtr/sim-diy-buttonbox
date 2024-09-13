@@ -2,7 +2,7 @@
 #include <Joystick.h>
 
 // How many leds in your strip?
-#define NUM_LEDS 32
+#define NUM_LEDS 65
 #define LED_PIN 8
 #define COLOR_ORDER GRB
 #define CHIPSET     WS2811
