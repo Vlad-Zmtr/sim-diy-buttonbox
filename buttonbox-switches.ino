@@ -3,17 +3,20 @@
 
 // How many leds in your strip?
 #define NUM_LEDS 65
+#define NUM_BUTT_LEDS 12
 #define LED_PIN 8
+#define LED_BUTT_PIN 2
 #define COLOR_ORDER GRB
 #define CHIPSET     WS2811
 
-#define BRIGHTNESS  200
+#define BRIGHTNESS  50
 #define FRAMES_PER_SECOND 60
 
 bool gReverseDirection = false;
 
 // Define the array of leds
 CRGB leds[NUM_LEDS];
+CRGB butt_leds[NUM_BUTT_LEDS];
 
 // Create the Joystick
 Joystick_ Joystick(JOYSTICK_DEFAULT_REPORT_ID,
@@ -44,6 +47,7 @@ void setup() {
     // Initialize LED
     delay(3000); // sanity delay
     FastLED.addLeds<CHIPSET, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection( TypicalLEDStrip );
+    FastLED.addLeds<CHIPSET, LED_BUTT_PIN, COLOR_ORDER>(butt_leds, NUM_BUTT_LEDS).setCorrection( TypicalLEDStrip );
     FastLED.setBrightness( BRIGHTNESS );
 
     // Initialize Button Pins
@@ -66,6 +70,7 @@ void loop() {
     // random16_add_entropy( random());
 
     Fire2012(); // run simulation frame
+    ButtonLED();
   
     FastLED.show(); // display this frame
     FastLED.delay(1000 / FRAMES_PER_SECOND);
@@ -141,6 +146,14 @@ void Fire2012()
       }
       leds[pixelnumber] = color;
     }
+}
+
+void ButtonLED()
+{
+    butt_leds[0] = CRGB::Red;
+    butt_leds[1] = CRGB::Green;
+    FastLED.show();
+
 }
 
 
